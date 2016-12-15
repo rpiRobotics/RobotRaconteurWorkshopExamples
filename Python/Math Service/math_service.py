@@ -41,39 +41,40 @@ class MathSolver(object):
     
 # Main Function
 def main():
-    RRN.UseNumPy = True
-    
-    # Create and Register Local Transport (names the node example.math)
-    t1 = RR.LocalTransport()
-    t1.StartServerAsNodeName("example.math")
-    RRN.RegisterTransport(t1)
-    
-    # Create and Register TCP Transport
-    t2 = RR.TcpTransport()
-    t2.EnableNodeAnnounce()
-    t2.StartServer(1234)
-    RRN.RegisterTransport(t2)
-    
-    # read in Service Definition File
-    with open('math_service.robdef','r') as f:
-        service_def = f.read()
-    
-    # Register Service Definition
-    RRN.RegisterServiceType(service_def)
-    
-    # Create instance of MathSolver object
-    solver_obj = MathSolver()
-    
-    # Register Service 'MathSolver' of type 'example.math.MathSolver'
-    RRN.RegisterService("MathSolver","example.math.MathSolver", solver_obj)
-    
-    print "Connect to MathSolver object at:"
-    # address : port / node name / service
-    print "tcp://localhost:1234/example.math/MathSolver"
-    raw_input('press enter to quit')
-    
-    # THIS MUST BE HERE OR RISK SEGFAULT
-    RRN.Shutdown()
+    try:
+        RRN.UseNumPy = True
+        
+        # Create and Register Local Transport (names the node example.math)
+        t1 = RR.LocalTransport()
+        t1.StartServerAsNodeName("example.math")
+        RRN.RegisterTransport(t1)
+        
+        # Create and Register TCP Transport
+        t2 = RR.TcpTransport()
+        t2.EnableNodeAnnounce()
+        t2.StartServer(1234)
+        RRN.RegisterTransport(t2)
+        
+        # read in Service Definition File
+        with open('math_service.robdef','r') as f:
+            service_def = f.read()
+        
+        # Register Service Definition
+        RRN.RegisterServiceType(service_def)
+        
+        # Create instance of MathSolver object
+        solver_obj = MathSolver()
+        
+        # Register Service 'MathSolver' of type 'example.math.MathSolver'
+        RRN.RegisterService("MathSolver","example.math.MathSolver", solver_obj)
+        
+        print "Connect to MathSolver object at:"
+        # address : port / node name / service
+        print "tcp://localhost:1234/example.math/MathSolver"
+        raw_input('press enter to quit')
+    finally:
+        # THIS MUST BE HERE OR RISK SEGFAULT
+        RRN.Shutdown()
 
 # Entry point for program
 if __name__== '__main__':
