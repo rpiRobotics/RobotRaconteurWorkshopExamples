@@ -1,0 +1,18 @@
+service example.webcam
+import edu.rpi.cats.sensors.camera_interface
+
+option version 0.8
+
+object Webcam
+    implements edu.rpi.cats.sensors.camera_interface.Camera
+    
+    property uint8 camera_found
+        
+    function edu.rpi.cats.sensors.camera_interface.Image getCurrentImage()
+    function edu.rpi.cats.sensors.camera_interface.ImageHeader getImageHeader()
+    
+    function void StartStreaming()
+    function void StopStreaming()
+    
+    pipe edu.rpi.cats.sensors.camera_interface.Image ImageStream
+end object
